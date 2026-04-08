@@ -6,6 +6,8 @@ import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 
+
+const API_URL = import.meta.env.VITE_API_URL || `${API_URL}`;
 const BookingSummary = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -58,7 +60,7 @@ const BookingSummary = () => {
                 totalPrice
             };
 
-            await axios.post('http://localhost:5000/api/bookings', bookingData);
+            await axios.post(`${API_URL}/api/bookings`, bookingData);
             setIsConfirmed(true);
         } catch (err) {
             console.error('Booking failed:', err);

@@ -6,6 +6,8 @@ import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+
+const API_URL = import.meta.env.VITE_API_URL || `${API_URL}`;
 const MyTickets = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
@@ -21,7 +23,7 @@ const MyTickets = () => {
 
         const fetchBookings = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/bookings/user/${user.id}`);
+                const response = await axios.get(`${API_URL}/api/bookings/user/${user.id}`);
                 setBookings(response.data);
             } catch (err) {
                 console.error('Failed to fetch bookings:', err);
@@ -38,7 +40,7 @@ const MyTickets = () => {
             setCancellingId(bookingId);
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:5000/api/bookings/${bookingId}`, {
+                await axios.delete(`${API_URL}/api/bookings/${bookingId}`, {
                     headers: { 'x-auth-token': token }
                 });
                 // Remove from local state

@@ -7,6 +7,8 @@ import Navbar from '../components/Navbar';
 import SeatGrid from '../components/SeatGrid';
 import axios from 'axios';
 
+
+const API_URL = import.meta.env.VITE_API_URL || `${API_URL}`;
 const SeatSelection = () => {
     const { id } = useParams();
     const [searchParams] = useSearchParams();
@@ -32,8 +34,8 @@ const SeatSelection = () => {
         const fetchData = async () => {
             try {
                 const [movieRes, theatersRes] = await Promise.all([
-                    axios.get(`http://localhost:5000/api/movies/${id}`),
-                    axios.get('http://localhost:5000/api/theaters')
+                    axios.get(`${API_URL}/api/movies/${id}`),
+                    axios.get(`${API_URL}/api/theaters`)
                 ]);
                 setMovie(movieRes.data);
                 setTheaters(theatersRes.data);
@@ -65,7 +67,7 @@ const SeatSelection = () => {
             if (!movie || !selectedTheater) return;
             setBookingLoading(true);
             try {
-                const response = await axios.get('http://localhost:5000/api/bookings/occupied', {
+                const response = await axios.get(`${API_URL}/api/bookings/occupied`, {
                     params: {
                         movieId: movie._id,
                         theaterId: selectedTheater._id || selectedTheater.id,

@@ -5,6 +5,8 @@ import axios from 'axios';
 import { Loader2, Search, Filter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+
+const API_URL = import.meta.env.VITE_API_URL || `${API_URL}`;
 const Movies = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,7 +17,7 @@ const Movies = () => {
         document.title = "Tickets | Movies";
         const fetchMovies = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/movies');
+                const response = await axios.get(`${API_URL}/api/movies`);
                 setMovies(response.data);
             } catch (err) {
                 console.error('Failed to fetch movies:', err);

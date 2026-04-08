@@ -5,6 +5,8 @@ import axios from 'axios';
 import { Loader2, MapPin, Monitor, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+
+const API_URL = import.meta.env.VITE_API_URL || `${API_URL}`;
 const TheaterCard = ({ theater, onViewShowtimes }) => (
     <motion.div
         whileHover={{ y: -10 }}
@@ -67,7 +69,7 @@ const Theaters = () => {
         document.title = "Tickets | Theaters";
         const fetchTheaters = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/theaters');
+                const response = await axios.get(`${API_URL}/api/theaters`);
                 setTheaters(response.data);
             } catch (err) {
                 console.error('Failed to fetch theaters:', err);

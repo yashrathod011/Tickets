@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
+
+const API_URL = import.meta.env.VITE_API_URL || `${API_URL}`;
 const AdminPanel = () => {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState('manage-movies');
@@ -48,7 +50,7 @@ const AdminPanel = () => {
 
     const fetchMovies = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/movies');
+            const res = await axios.get(`${API_URL}/api/movies`);
             setMovies(res.data);
         } catch (err) {
             console.error('Error fetching movies:', err);
@@ -99,7 +101,7 @@ const AdminPanel = () => {
         if (window.confirm('Are you sure you want to delete this movie? This action cannot be undone.')) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:5000/api/movies/${id}`, {
+                await axios.delete(`${API_URL}/api/movies/${id}`, {
                     headers: { 'x-auth-token': token }
                 });
                 setMessage({ type: 'success', text: 'Movie deleted successfully!' });
@@ -117,7 +119,7 @@ const AdminPanel = () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:5000/api/auth/users', {
+            const res = await axios.get(`${API_URL}/api/auth/users`, {
                 headers: { 'x-auth-token': token }
             });
             setUsers(res.data);
@@ -132,7 +134,7 @@ const AdminPanel = () => {
         if (window.confirm('Are you sure you want to delete this user? All their associated data might be affected.')) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:5000/api/auth/users/${id}`, {
+                await axios.delete(`${API_URL}/api/auth/users/${id}`, {
                     headers: { 'x-auth-token': token }
                 });
                 setMessage({ type: 'success', text: 'User deleted successfully!' });
@@ -147,7 +149,7 @@ const AdminPanel = () => {
         if (window.confirm('Are you sure you want to cancel this booking? This will free up the seats.')) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:5000/api/bookings/${id}`, {
+                await axios.delete(`${API_URL}/api/bookings/${id}`, {
                     headers: { 'x-auth-token': token }
                 });
                 setMessage({ type: 'success', text: 'Booking cancelled successfully!' });
@@ -163,7 +165,7 @@ const AdminPanel = () => {
         try {
             const token = localStorage.getItem('token');
             const { movieId, date, time } = filter;
-            let url = `http://localhost:5000/api/bookings/admin/all?`;
+            let url = `${API_URL}/api/bookings/admin/all?`;
             if (movieId) url += `movieId=${movieId}&`;
             if (date) url += `date=${date}&`;
             if (time) url += `time=${time}&`;
@@ -197,12 +199,12 @@ const AdminPanel = () => {
             }
 
             if (isEditing) {
-                await axios.put(`http://localhost:5000/api/movies/${currentMovieId}`, sanitizedForm, {
+                await axios.put(`${API_URL}/api/movies/${currentMovieId}`, sanitizedForm, {
                     headers: { 'x-auth-token': token }
                 });
                 setMessage({ type: 'success', text: 'Movie updated successfully!' });
             } else {
-                await axios.post('http://localhost:5000/api/movies', sanitizedForm, {
+                await axios.post(`${API_URL}/api/movies`, sanitizedForm, {
                     headers: { 'x-auth-token': token }
                 });
                 setMessage({ type: 'success', text: 'Movie added successfully!' });

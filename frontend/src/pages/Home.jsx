@@ -5,6 +5,8 @@ import MovieRow from '../components/MovieRow';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
 
+
+const API_URL = import.meta.env.VITE_API_URL || `${API_URL}`;
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,7 +16,7 @@ const Home = () => {
     document.title = "Tickets | Home";
     const fetchMovies = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/movies');
+        const response = await axios.get(`${API_URL}/api/movies`);
         setMovies(response.data);
       } catch (err) {
         console.error('Failed to fetch movies:', err);

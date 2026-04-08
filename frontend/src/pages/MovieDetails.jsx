@@ -5,6 +5,8 @@ import { Play, Star, Clock, Calendar, ChevronLeft, Loader2, AlertCircle, Ticket 
 import Navbar from '../components/Navbar';
 import axios from 'axios';
 
+
+const API_URL = import.meta.env.VITE_API_URL || `${API_URL}`;
 const MovieDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -17,7 +19,7 @@ const MovieDetails = () => {
     useEffect(() => {
         const fetchMovieDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/movies/${id}`);
+                const response = await axios.get(`${API_URL}/api/movies/${id}`);
                 setMovie(response.data);
             } catch (err) {
                 console.error('Failed to fetch movie details:', err);

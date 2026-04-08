@@ -5,6 +5,8 @@ import axios from 'axios';
 import { Loader2, MapPin, Calendar, Clock, Ticket, ChevronLeft, Monitor } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+
+const API_URL = import.meta.env.VITE_API_URL || `${API_URL}`;
 const TheaterDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -16,12 +18,12 @@ const TheaterDetails = () => {
         const fetchTheaterDetails = async () => {
             try {
                 // Fetch theater info
-                const theaterRes = await axios.get(`http://localhost:5000/api/theaters`);
+                const theaterRes = await axios.get(`${API_URL}/api/theaters`);
                 const currentTheater = theaterRes.data.find(t => t._id === id);
                 setTheater(currentTheater);
 
                 // Fetch showtimes for this theater
-                const showtimesRes = await axios.get(`http://localhost:5000/api/theaters/${id}/showtimes`);
+                const showtimesRes = await axios.get(`${API_URL}/api/theaters/${id}/showtimes`);
                 setShowtimes(showtimesRes.data);
             } catch (err) {
                 console.error('Failed to fetch theater details:', err);
